@@ -1,6 +1,6 @@
 package standart
 
-import scala.util.Try
+import Util._
 
 case class TempData(day: Int, doy: Int, month: Int, year: Int, precip: Double, snow: Double, tave: Double, tmax: Double, tmin: Double)
 
@@ -77,18 +77,5 @@ object TempData {
 
     println(s"avg temp for each month is: ${monthlyTemp}")
     monthlyTemp.toSeq.sortBy(_._1).foreach(println)
-
-  }
-
-  def parseInt(s: String): Option[Int] = {
-    Try { s.toInt }.toOption
-  }
-
-  def parseDouble(s: String): Option[Double] = {
-    Try { s.toDouble }.toOption
-  }
-
-  def toDoubleOrNeg(s: String): Double = {
-    parseDouble(s).getOrElse(-1)
   }
 }
