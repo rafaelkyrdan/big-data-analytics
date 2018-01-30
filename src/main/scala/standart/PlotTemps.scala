@@ -1,9 +1,7 @@
 package standart
 
-import scala.util.Try
-import Util._
+import standart.Util._
 
-import scalafx.application
 import scalafx.application.JFXApp
 import scalafx.collections.ObservableBuffer
 import scalafx.scene.Scene
