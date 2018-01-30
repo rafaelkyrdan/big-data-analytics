@@ -43,8 +43,33 @@ object TempData {
         a
       }
     })
-
     println(s"hot day2: $hotDay2")
+
+    // 1 approach
+    val rainyCount = data.count(_.precip >= 1.0)
+    println(s"rainy count: $rainyCount days and % ${rainyCount * 100.0 / data.length}")
+
+    // 2 approach
+    val (rainySun, rainyCount2) = data.foldLeft( 0.0 -> 0 ) { case ((sum, cnt), td) =>
+      if (td.precip < 1.0) {
+        (sum, cnt)
+      } else {
+        (sum + td.tmax, cnt + 1)
+      }
+    }
+    println(s"avg rainy temp is: ${rainySun / rainyCount2}")
+
+    // 3 approach
+    val rainyTemps = data.flatMap( td => {
+      if (td.precip < 1.0) {
+        Nil
+      } else {
+        Seq(td.tmax)
+      }
+    })
+
+    println(s"avg rainy temp(second approach) is: ${rainyTemps.sum / rainyTemps.length}")
+
   }
 
   def parseInt(s: String): Option[Int] = {
