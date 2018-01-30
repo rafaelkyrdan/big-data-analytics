@@ -70,6 +70,14 @@ object TempData {
 
     println(s"avg rainy temp(second approach) is: ${rainyTemps.sum / rainyTemps.length}")
 
+    val monthGroup = data.groupBy(_.month)
+    val monthlyTemp = monthGroup.map { case (m, days) =>
+      m -> days.foldLeft(0.0)((sum, td) => sum + td.tmax) / days.length
+    }
+
+    println(s"avg temp for each month is: ${monthlyTemp}")
+    monthlyTemp.toSeq.sortBy(_._1).foreach(println)
+
   }
 
   def parseInt(s: String): Option[Int] = {
