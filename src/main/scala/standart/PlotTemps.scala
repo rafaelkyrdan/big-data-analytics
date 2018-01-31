@@ -6,6 +6,9 @@ import scalafx.application.JFXApp
 import scalafx.collections.ObservableBuffer
 import scalafx.scene.Scene
 import scalafx.scene.chart.{NumberAxis, ScatterChart, XYChart}
+import swiftvis2.plotting
+import swiftvis2.plotting.{ColorGradient, Plot}
+import swiftvis2.plotting.renderer.FXRenderer
 
 object PlotTemps extends JFXApp {
   val source = scala.io.Source.fromFile("MN212142_9392.csv")
@@ -25,6 +28,8 @@ object PlotTemps extends JFXApp {
 
   source.close()
 
+  // plotting with scalaFX, doesn't work good
+  /*
   stage = new JFXApp.PrimaryStage {
     title = "Temp Plot"
     scene = new Scene(500, 500) {
@@ -37,4 +42,20 @@ object PlotTemps extends JFXApp {
       root = plot
     }
   }
+  */
+
+  val rainData = data.filter(_.precip >= 0.0).sortBy(_.precip)
+  val cg = ColorGradient((0.0, 0xFF000000), (1.0, 0xFF00FF00), (10.0, 0xFF0000FF))
+  val plot = Plot.scatterPlot(
+    rainData.map(_.doy),
+    rainData.map(_.tmax),
+    "Temps",
+    "Day of Year",
+    "Temp",
+    5,
+    rainData.map(td => cg(td.precip))
+  )
+
+  FXRenderer(plot, 500, 500)
+
 }
